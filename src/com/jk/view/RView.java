@@ -1,0 +1,78 @@
+package com.jk.view;
+
+import java.util.Random;
+
+import com.jk.fingerGame.R;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.view.View;
+import android.view.View.OnClickListener;
+
+public class RView extends View {
+
+	public int number=-1;
+
+	private Paint mPaint;
+
+	private Rect mBounds;
+
+	public RView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		this.mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mBounds = new Rect();
+		 
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		// TODO Auto-generated method stub
+		super.onDraw(canvas);
+		mPaint.setAlpha(0);
+		canvas.drawRect(0, 0, getWidth(), getHeight(), mPaint);
+		mPaint.setTextSize(30);
+		if (number != 0) {
+			getRandomNumber();
+			 Bitmap bitmap=null;
+			if(number==1){
+				bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.zjd );
+			}else if(number==2){
+				bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.zst );
+			}else if(number==3){
+				bitmap=BitmapFactory.decodeResource(getResources(),R.drawable.zbu );
+			}
+			//canvas.drawText(text, getWidth() / 2 - textwidth / 2, getHeight()
+				//	/ 2 + texthight / 2, mPaint);
+			//canvasdrawBitmap(Bitmap bitmap, Rect src, Rect dst, Paint paint)
+			 
+			canvas.drawBitmap(bitmap, 0, 0, null);
+		}
+
+	}
+	
+	
+	public void begin() {
+		number=-1;
+		invalidate();
+	}
+
+	private void getRandomNumber() {
+		Random r = new Random();
+		number = Math.abs(r.nextInt(3)+1);  
+	}
+
+	public void next() {
+		invalidate();
+	}
+	public int getNumber(){
+		return number;
+	}
+
+}
